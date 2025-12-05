@@ -1,0 +1,22 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /spring_ai
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+spring:
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: qwen3-vl:2b
+          temperature: 0.8
+      init:
+        ## ???????????
+        pull-model-strategy: when_missing
+  application:
+    name: spring-ai
+    group: ai
