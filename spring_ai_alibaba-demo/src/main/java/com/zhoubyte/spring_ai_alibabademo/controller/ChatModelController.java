@@ -19,6 +19,6 @@ public class ChatModelController {
 
     @GetMapping(value = "/chat")
     public Flux<String> chat(@RequestParam("message") String message){
-        return chatModel.stream(new Prompt(message)).map(ChatResponse::getResult).map(item -> item.getOutput().getText());
+        return chatModel.stream(new Prompt(message)).map(ChatResponse::getResult).mapNotNull(item -> item.getOutput().getText());
     }
 }
