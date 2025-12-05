@@ -18,9 +18,8 @@ public class SensitiveWordAdviser implements CallAdvisor, StreamAdvisor {
 
     @Override
     public ChatClientResponse adviseCall(ChatClientRequest chatClientRequest, CallAdvisorChain callAdvisorChain) {
-        Map<String, Object> context = chatClientRequest.context();
-        context.forEach((key, value) -> {
-            if(checkSensitiveWord(String.valueOf(value))) {
+        chatClientRequest.prompt().getUserMessages().forEach(message -> {
+            if(checkSensitiveWord(message.getText())) {
                 throw new RuntimeException("存在敏感词，注意注意!!!");
             }
         });
@@ -31,9 +30,8 @@ public class SensitiveWordAdviser implements CallAdvisor, StreamAdvisor {
 
     @Override
     public Flux<ChatClientResponse> adviseStream(ChatClientRequest chatClientRequest, StreamAdvisorChain streamAdvisorChain) {
-        Map<String, Object> context = chatClientRequest.context();
-        context.forEach((key, value) -> {
-            if(checkSensitiveWord(String.valueOf(value))) {
+        chatClientRequest.prompt().getUserMessages().forEach(message -> {
+            if(checkSensitiveWord(message.getText())) {
                 throw new RuntimeException("存在敏感词，注意注意!!!");
             }
         });

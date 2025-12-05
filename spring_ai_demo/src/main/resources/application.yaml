@@ -15,8 +15,8 @@ spring:
           model: qwen3-vl:2b
           temperature: 0.8
       init:
-        ## ???????????
-        pull-model-strategy: when_missing
+        ## 是否在项目启动的时候拉取模型 never: 从不拉取，when-miss: 没有的时候拉取，always: 总是拉取
+        pull-model-strategy: never
   application:
     name: spring-ai
     group: ai

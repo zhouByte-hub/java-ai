@@ -1,6 +1,5 @@
 package com.zhoubyte.spring_ai_demo.chat;
 
-import com.zhoubyte.spring_ai_demo.adviser.SensitiveWordAdviser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -19,7 +18,7 @@ public class ChatModelController {
     private final ChatModel chatModel;
 
     // chatModel无法设置 Adviser
-    private final SensitiveWordAdviser sensitiveWordAdviser;
+//    private final SensitiveWordAdviser sensitiveWordAdviser;
 
     @GetMapping(value = "/chat")
     public Flux<String> chat(@RequestParam("message") String message) {
