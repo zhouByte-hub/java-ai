@@ -16,7 +16,11 @@
 
     <properties>
         <java.version>17</java.version>
+        <spring-ai-alibaba.version>1.1.0.0-M5</spring-ai-alibaba.version>
+        <spring-ai-alibaba.extensions.version>1.1.0.0-M5</spring-ai-alibaba.extensions.version>
+        <spring-ai.version>1.1.0</spring-ai.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -29,7 +33,54 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- Spring AI Alibaba 基础能力（配置、统一抽象等） -->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud.ai</groupId>-->
+<!--            <artifactId>spring-ai-alibaba-starter</artifactId>-->
+<!--        </dependency>-->
+
+
+        <!-- DashScope ChatModel 支持（如果使用其他模型，请参考文档选择对应的 starter） -->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud.ai</groupId>-->
+<!--            <artifactId>spring-ai-alibaba-starter-dashscope</artifactId>-->
+<!--            <version>1.1.0.0-M5</version>-->
+<!--        </dependency>-->
+
+        <!-- 使用 Spring AI 的 Ollama 模型，在本地调用 Ollama 服务 -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-ollama</artifactId>
+        </dependency>
+
     </dependencies>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-bom</artifactId>
+                <version>${spring-ai-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.alibaba.cloud.ai</groupId>-->
+<!--                <artifactId>spring-ai-alibaba-extensions-bom</artifactId>-->
+<!--                <version>${spring-ai-alibaba.extensions.version}</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
@@ -59,5 +110,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>
