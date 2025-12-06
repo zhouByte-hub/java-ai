@@ -1,6 +1,7 @@
 package com.zhoubyte.spring_ai_alibabademo.config;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.api.BaseAdvisor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +18,10 @@ public class OllamaConfig {
      * ChatModel 由 spring-ai-starter-model-ollama 根据 spring.ai.ollama.* 配置自动装配。
      */
     @Bean("ollamaChatClient")
-    public ChatClient ollamaChatClient(ChatModel chatModel) {
-        return ChatClient.builder(chatModel).build();
+    public ChatClient ollamaChatClient(ChatModel chatModel, BaseAdvisor memoriesAdvisor) {
+        return ChatClient.builder(chatModel)
+                .defaultAdvisors(memoriesAdvisor)
+                .build();
     }
 }
 

@@ -1,8 +1,8 @@
 package com.zhoubyte.spring_ai_demo.config;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.api.BaseAdvisor;
 import org.springframework.ai.chat.model.ChatModel;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,8 +15,10 @@ public class OllamaConfig {
      * @return ChatClient
      */
     @Bean("ollamaChatClient")
-    public ChatClient ollamaChatClient(ChatModel chatModel) {
+    public ChatClient ollamaChatClient(ChatModel chatModel, BaseAdvisor memoriesAdvisor) {
         return ChatClient.builder(chatModel)
+                // 在初始化 ChatClient对象时配置全局 Advisor，在具体的调用时就不需要进行配置
+                .defaultAdvisors(memoriesAdvisor)
                 .build();
     }
 
