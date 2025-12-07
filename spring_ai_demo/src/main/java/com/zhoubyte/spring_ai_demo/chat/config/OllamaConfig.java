@@ -1,4 +1,4 @@
-package com.zhoubyte.spring_ai_demo.config;
+package com.zhoubyte.spring_ai_demo.chat.config;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;

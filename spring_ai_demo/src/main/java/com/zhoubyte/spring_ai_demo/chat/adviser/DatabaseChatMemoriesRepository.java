@@ -1,4 +1,4 @@
-package com.zhoubyte.spring_ai_demo.adviser;
+package com.zhoubyte.spring_ai_demo.chat.adviser;
 
 import org.springframework.ai.chat.memory.ChatMemoryRepository;
 import org.springframework.ai.chat.messages.Message;

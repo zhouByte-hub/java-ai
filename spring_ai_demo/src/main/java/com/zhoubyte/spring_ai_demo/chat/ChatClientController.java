@@ -1,11 +1,9 @@
 package com.zhoubyte.spring_ai_demo.chat;
 
-import com.zhoubyte.spring_ai_demo.adviser.SensitiveWordAdviser;
+import com.zhoubyte.spring_ai_demo.chat.adviser.SensitiveWordAdviser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.ai.ollama.api.OllamaChatOptions;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

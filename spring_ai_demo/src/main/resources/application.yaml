@@ -17,6 +17,19 @@ spring:
       init:
         ## 是否在项目启动的时候拉取模型 never: 从不拉取，when-miss: 没有的时候拉取，always: 总是拉取
         pull-model-strategy: never
+      embedding:
+        options:
+          model: embedding-3
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        dimensions: 256
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/test1?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&allowMultiQueries=true
+    username: admin
+    password: 123456
+
   application:
     name: spring-ai
     group: ai
