@@ -1,7 +1,12 @@
 package com.zhoubyte.spring_ai_alibabademo.config;
 
+import com.zhoubyte.spring_ai_alibabademo.adviser.SimpleMemories;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.api.BaseAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.memory.ChatMemoryRepository;
+import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +23,22 @@ public class OllamaConfig {
      * ChatModel 由 spring-ai-starter-model-ollama 根据 spring.ai.ollama.* 配置自动装配。
      */
     @Bean("ollamaChatClient")
-    public ChatClient ollamaChatClient(ChatModel chatModel, BaseAdvisor memoriesAdvisor) {
+    public ChatClient ollamaChatClient(ChatModel chatModel, BaseAdvisor memoriesAdvisor, SimpleMemories simpleMemories, ChatMemoryRepository databaseChatMemoryRepository) {
+        // 大模型记忆：方式一
+//        ChatMemory.CONVERSATION_ID
+        MessageWindowChatMemory build = MessageWindowChatMemory.builder()
+                .maxMessages(20)
+                .chatMemoryRepository(databaseChatMemoryRepository)
+                .build();
+
+
+        MessageChatMemoryAdvisor chatMemoriesSessionId = MessageChatMemoryAdvisor
+                .builder(simpleMemories)    // 使用 simpleMemories或者使用 build
+                .conversationId("chat_memories_session_id")
+                .order(1)
+                .build();
+
+        // 大模型记忆：方式二
         return ChatClient.builder(chatModel)
                 .defaultAdvisors(memoriesAdvisor)
                 .build();

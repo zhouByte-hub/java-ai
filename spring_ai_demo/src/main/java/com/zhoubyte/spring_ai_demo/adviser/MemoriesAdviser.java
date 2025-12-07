@@ -32,7 +32,7 @@ public class MemoriesAdviser implements BaseAdvisor {
         Prompt build = chatClientRequest.prompt().mutate()
                 .messages(messages)
                 .build();
-
+        MEMORIES.put(chatMemoriesSessionId, messages);
         return chatClientRequest.mutate().prompt(build).build();
     }
 
@@ -43,7 +43,7 @@ public class MemoriesAdviser implements BaseAdvisor {
         String chatMemoriesSessionId = chatClientResponse.context().get(CHAT_MEMORIES_SESSION_ID).toString();
         List<Message> messages = MEMORIES.get(chatMemoriesSessionId);
         if(messages == null) {
-            throw new RuntimeException("当前未存在提问");
+            messages = new ArrayList<>();
         }
         messages.add(output);
         MEMORIES.put(chatMemoriesSessionId, messages);

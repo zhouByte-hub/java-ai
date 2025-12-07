@@ -42,4 +42,13 @@ public class ChatClientController {
                 .stream()
                 .content();
     }
+
+
+    @GetMapping(value = "/chatForMemories")
+    public Flux<String> chatForMemories(@RequestParam("message") String message, @RequestParam("sessionId") String sessionId) {
+        return ollamaChatClient.prompt(message)
+                .advisors(advisorSpec -> advisorSpec.param("chat_memories_session_id", sessionId))
+                .stream()
+                .content();
+    }
 }
