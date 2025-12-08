@@ -8,9 +8,9 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-	@Configuration
-	public class RagChatClientConfig {
-	
+@Configuration
+public class RagChatClientConfig {
+
 	    /**
 	     * 带 RAG 能力的 ChatClient Bean。
 	     *
