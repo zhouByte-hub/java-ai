@@ -19,16 +19,20 @@ spring:
         pull-model-strategy: never
       embedding:
         options:
-          model: embedding-3
+          model: qwen3-embedding:0.6b
     vectorstore:
       pgvector:
         initialize-schema: true
-        dimensions: 256
+        ## Qwen3-Embedding-0.6B 的维度是 1024
+        dimensions: 1024
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/test1?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&allowMultiQueries=true
-    username: admin
-    password: 123456
+    url: jdbc:postgresql://175.178.42.153:5432/postgres?serverTimezone=Asia/Shanghai
+    username: postgres
+    password:
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 32
 
   application:
     name: spring-ai

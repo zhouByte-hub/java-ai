@@ -47,7 +47,6 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
-
         <!--Rag依赖-->
         <dependency>
             <groupId>org.springframework.ai</groupId>

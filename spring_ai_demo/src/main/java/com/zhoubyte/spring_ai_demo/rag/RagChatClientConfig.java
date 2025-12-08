@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Configuration;
 	        // 基于 pgVectorStore 的文档检索器：按照向量相似度从向量库中取前 topK 条文档
 	        VectorStoreDocumentRetriever storeDocumentRetriever = VectorStoreDocumentRetriever.builder()
 	                .vectorStore(pgVectorStore).topK(5)
-                    .similarityThreshold(0.8).build();
+                    .similarityThreshold(0.1).build();
 	        // RAG 顾问：在每次对话前先使用检索器查知识库，并把检索结果注入到模型 Prompt 中
 	        RetrievalAugmentationAdvisor retrievalAugmentationAdvisor = RetrievalAugmentationAdvisor.builder()
 	                .order(0)
