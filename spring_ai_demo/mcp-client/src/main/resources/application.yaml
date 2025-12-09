@@ -1,0 +1,19 @@
+server:
+  port: 8084
+  servlet:
+    context-path: /spring-ai-mcp-client
+spring:
+  application:
+    name: spring-ai-mcp-client
+  ai:
+    mcp:
+      client:
+        stdio:
+          connections:
+            server1:
+              url: http://localhost:8083/spring-ai-mcp-server
+    ollama:
+      chat:
+        options:
+          model: qwen3:0.6b
+          temperature: 0.8

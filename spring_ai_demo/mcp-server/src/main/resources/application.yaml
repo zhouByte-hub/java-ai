@@ -1,0 +1,29 @@
+server:
+  port: 8083
+  servlet:
+    context-path: /spring-ai-mcp-server
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+
+spring:
+  application:
+    name: spring-ai-mcp-server
+  ai:
+    mcp:
+      server:
+        enabled: true # 启用/禁用 MCP 服务器
+        stdio: true # 启用/禁用 STDIO 传输
+        name: mcp-server # 用于标识的服务器名称
+        version: 1.0.0  # 服务器版本
+        type: sync  # 服务器类型（同步/异步）
+        capabilities:
+          resource: true  # 启用/禁用资源功能
+          tool: true    # 启用/禁用工具功能
+          prompt: true  # 启用/禁用提示功能
+          completion: true # 启用/禁用自动完成功能
+        resource-change-notification: true  # 启用资源变更通知
+        prompt-change-notification: true  # 启用提示更改通知
+        tool-change-notification: true  # 启用工具更换通知
+        request-timeout: 20s  # 等待服务器响应的持续时间，超过此持续时间请求将超时。

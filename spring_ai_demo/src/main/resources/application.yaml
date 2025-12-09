@@ -12,7 +12,7 @@ spring:
       base-url: http://localhost:11434
       chat:
         options:
-          model: qwen3-vl:2b
+          model: qwen3:0.6b
           temperature: 0.8
       init:
         ## 是否在项目启动的时候拉取模型 never: 从不拉取，when-miss: 没有的时候拉取，always: 总是拉取
@@ -29,7 +29,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://175.178.42.153:5432/postgres?serverTimezone=Asia/Shanghai
     username: postgres
-    password:
+    password: dayu@dev_9527
     hikari:
       connection-timeout: 30000
       maximum-pool-size: 32
