@@ -1,4 +1,4 @@
-package com.zhoubyte.spring_ai_alibabademo.adviser;
+package com.zhoubyte.spring_ai_alibaba_demo.chat.adviser;
 
 import org.springframework.ai.chat.client.ChatClientRequest;
 import org.springframework.ai.chat.client.ChatClientResponse;

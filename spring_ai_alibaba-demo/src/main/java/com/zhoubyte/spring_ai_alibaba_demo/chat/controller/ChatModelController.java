@@ -1,4 +1,4 @@
-package com.zhoubyte.spring_ai_alibabademo.controller;
+package com.zhoubyte.spring_ai_alibaba_demo.chat.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.model.ChatModel;

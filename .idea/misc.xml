@@ -10,6 +10,8 @@
         <option value="$PROJECT_DIR$/langchain4j_demo/pom.xml" />
         <option value="$PROJECT_DIR$/spring_ai_demo/mcp-client/pom.xml" />
         <option value="$PROJECT_DIR$/spring_ai_demo/mcp-server/pom.xml" />
+        <option value="$PROJECT_DIR$/spring_ai_alibaba-demo/alibaba-mcp-client/pom.xml" />
+        <option value="$PROJECT_DIR$/spring_ai_alibaba-demo/alibaba-mcp-server/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

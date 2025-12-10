@@ -11,7 +11,6 @@
           <entry name="$USER_HOME$/T_FILE/repostory/maven/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
           <entry name="$USER_HOME$/T_FILE/repostory/maven/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
-        <module name="spring_ai_alibaba-demo" />
         <module name="spring_ai_demo" />
         <module name="langchain4j_demo" />
       </profile>
@@ -20,12 +19,25 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mcp-server" />
+        <module name="alibaba-mcp-client" />
         <module name="mcp-client" />
+        <module name="alibaba-mcp-server" />
+      </profile>
+      <profile name="Annotation profile for spring_ai_alibaba-demo" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+        </processorPath>
+        <module name="spring_ai_alibaba-demo" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="alibaba-mcp-client" options="-parameters" />
+      <module name="alibaba-mcp-server" options="-parameters" />
       <module name="langchain4j_demo" options="-parameters" />
       <module name="mcp-client" options="-parameters" />
       <module name="mcp-server" options="-parameters" />

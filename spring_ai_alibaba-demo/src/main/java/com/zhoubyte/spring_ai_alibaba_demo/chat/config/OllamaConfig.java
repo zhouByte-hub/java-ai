@@ -1,10 +1,9 @@
-package com.zhoubyte.spring_ai_alibabademo.config;
+package com.zhoubyte.spring_ai_alibaba_demo.chat.config;
 
-import com.zhoubyte.spring_ai_alibabademo.adviser.SimpleMemories;
+import com.zhoubyte.spring_ai_alibaba_demo.chat.adviser.SimpleMemories;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.api.BaseAdvisor;
-import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.ChatMemoryRepository;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.chat.model.ChatModel;

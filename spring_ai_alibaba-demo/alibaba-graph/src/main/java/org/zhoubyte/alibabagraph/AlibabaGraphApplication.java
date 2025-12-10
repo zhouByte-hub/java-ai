@@ -1,13 +1,13 @@
-package com.zhoubyte.spring_ai_alibabademo;
+package org.zhoubyte.alibabagraph;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringAiAlibabaDemoApplication {
+public class AlibabaGraphApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringAiAlibabaDemoApplication.class, args);
+        SpringApplication.run(AlibabaGraphApplication.class, args);
     }
 
 }
