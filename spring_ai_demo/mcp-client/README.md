@@ -1,109 +1,163 @@
-# Spring AI MCP Client 示例
+# Spring AI 中的 MCP 与 McpClient
 
-## 1. Spring AI 中的 MCP 概念
+## 1. MCP（Model Context Protocol）是什么？
 
-MCP（Model Context Protocol）是由 Anthropic 提出的一个标准协议，用来在“大模型 ↔ 外部系统”之间传递：
+MCP 是 Anthropic 提出的一个开放协议，用来规范“大模型 ↔ 外部世界”的交互。它把模型可用的外部能力抽象成三类对象：
 
-- Tools（可调用的函数 / 操作）
-- Resources（可访问的数据资源，如文件、配置、知识库）
-- Prompts（可复用的提示模板）
+- Tools：可调用的函数 / 命令，用来执行动作或查询信息；
+- Resources：可读取的数据资源，如文件、配置、知识库条目等；
+- Prompts：可复用的提示模板，用于统一指令和系统提示。
 
-在 Spring AI 中：
+MCP 规定了：
 
-- `spring-ai-mcp-client` 负责作为 **MCP 客户端**，连接到一个或多个 MCP Server；
-- MCP 让“提供工具与数据的一侧”和“使用模型的一侧”解耦，不再把所有 Tool 定义硬编码在应用里或某家模型厂商的 API 里。
+- 客户端如何发现一个 MCP Server 暴露了哪些 tools / resources / prompts；
+- 调用这些能力时，请求与响应的结构是什么；
+- 在不同传输方式（stdin/stdout、SSE over HTTP 等）上如何编码这些消息。
 
-简单理解：
+简单来说：MCP 把“给模型提供工具和数据”这件事标准化了。
 
-- Tool Calling：告诉某个模型“你有这些函数可以调”；
-- MCP：告诉任意模型/应用“这里有一个标准化的工具与资源服务（MCP Server），你可以按统一协议发现和调用它们”。
+## 2. MCP 在 Spring AI 里的作用与好处
 
-## 2. 本子项目（mcp-client）的角色
+在 Spring AI 体系中，MCP 的目标是：
 
-本模块演示了如何在 Spring Boot / Spring AI 应用中使用 MCP Client：
+- 把“模型调用逻辑”（ChatClient / Agent 等）与“工具和数据的实现”解耦；
+- 让同一套工具 / 资源可以被多个应用、多个模型提供商复用；
+- 降低应用升级或切换模型时的改造成本。
 
-- 通过 Spring AI 的 MCP Client Boot Starter 建立到 MCP Server 的连接；
-- 自动发现 MCP Server 暴露的 tools / resources / prompts；
-- 在 ChatClient / Agent 的对话过程中，当模型触发 tool 调用时，由 MCP Client 负责：
-  - 把 tool 调用请求转发给 MCP Server；
-  - 接收 MCP Server 执行结果，并回填给模型；
-  - 最终把模型生成的回答返回给业务代码。
+引入 MCP 的主要好处包括：
 
-这样，业务只需要关注“调用 ChatClient / Agent”，而不必直接处理具体的工具实现和网络协议。
+- 解耦：业务应用只负责对话编排与业务逻辑，工具实现集中在 MCP Server 中；
+- 跨模型：同一个 MCP Server 可以被不同 LLM（OpenAI、Anthropic、阿里通义等）的客户端调用；
+- 统一治理：权限控制、审计、灰度发布等可以在 MCP Server 层统一处理；
+- 长期可维护：工具资产沉淀在一个独立层，而不是散落在每个应用里。
 
-## 3. 为什么要拆分 MCP Client / Server？
+## 3. McpClient 在 Spring AI 中扮演什么角色？
 
-- **解耦**：工具实现集中放在 MCP Server 中，多个应用、多个模型可以复用同一套工具与资源。
-- **跨模型厂商**：同一个 MCP Server 可以被不同 LLM 提供商（OpenAI、Anthropic、阿里通义等）的客户端使用。
-- **统一治理**：对于工具的权限控制、审计、版本管理，可以在 MCP Server 层统一处理。
-- **应用更轻量**：业务应用只负责对话编排，把“外部能力”委托给 MCP，而不是在每个项目里重复实现。
+`McpClient` 是 Spring AI 中的 MCP 客户端组件，主要负责两类能力。
 
-## 4. MCP 与 Tool Calling 的对比
+**能力发现与描述：**
 
-### 4.1 Tool Calling（函数调用）的特点
+- 连接一个或多个 MCP Server；
+- 获取并缓存这些 Server 暴露的 tools、resources、prompts 的元数据；
+- 把这些能力暴露给 Spring AI 的 ChatClient / Agent，让模型知道“有哪些工具可用”。
 
-- 工具描述紧耦合在某个模型提供商的 API（例如 OpenAI function calling）。
-- 工具定义通常由当前应用提供，生命周期和应用强绑定。
-- 使用简单、集成成本低，适合单体应用或简单场景。
+**工具调用代理：**
 
-### 4.2 MCP 的特点
+- 当模型在对话中触发某个 tool 调用时，McpClient 会根据 MCP 协议把调用请求转发给对应的 MCP Server；
+- 接收 MCP Server 的执行结果，并以标准结构回传给模型；
+- 可同时支持不同传输方式（如 stdio、SSE over HTTP），对上层应用透明。
 
-- 通过统一协议暴露 tools/resources/prompts，**与模型提供商无关**。
-- 工具实现集中在 MCP Server 中，可被多端、多项目共享。
-- 支持工具发现、元数据获取、增量更新等更丰富的管理能力。
+对业务开发者来说：
 
-### 4.3 优缺点对比（简表）
+- 只需要使用 Spring AI 的 ChatClient / Agent，就可以间接使用所有 MCP Server 暴露的工具与资源；
+- 不必在应用中直接维护复杂的工具实现或协议细节。
 
-| 能力                | MCP                                          | Tool Calling（传统函数调用）                         |
-|---------------------|----------------------------------------------|------------------------------------------------------|
-| 与模型厂商的耦合度  | 低，协议层抽象，可跨多家模型                 | 高，通常绑定某个模型 API                             |
-| 工具实现位置        | 独立 MCP Server，可复用                      | 应用内部或模型侧定义，项目间难以共享                 |
-| 治理与运维          | 适合集中治理（权限、审计、版本）             | 分散在各个应用之中，难以统一管理                     |
-| 集成复杂度          | 需要部署 MCP Server 和 Client，架构更复杂    | 应用内直接注册工具，入门简单                         |
-| 网络与性能开销      | 多一跳 MCP 调用，有额外网络/序列化开销       | 直接由应用执行工具，没有额外协议层                   |
+## 4. MCP 支持的传输方式与典型使用场景
 
-简单总结：
+Spring AI 的 MCP 实现支持多种传输方式，常见包括：
 
-- 小应用、单模型：Tool Calling 往往足够用，方便快捷；
-- 多应用、多模型、需要统一治理：引入 MCP 可以复用工具资产、降低长期维护成本。
+- **STDIO 传输**
+  - 通过标准输入 / 标准输出进行通信；
+  - 适合命令行工具、桌面 IDE 插件等“本地进程内”场景；
+  - 配置简单，不需要额外的 HTTP 服务。
 
-## 5. 程序 - 大模型 - MCP 的调用链路（ASCII 示意）
+- **SSE（Server-Sent Events）over HTTP**
+  - 通过 HTTP + SSE 进行流式通信；
+  - 分为基于 Spring MVC 的 WebMvcSse 实现和基于 Spring WebFlux 的 WebFluxSse 实现；
+  - 适合微服务架构、跨进程 / 跨机器的 Server 部署；
+  - 便于和现有的 Spring Boot Web 应用一起运行和运维。
 
-下面示意了在本 `mcp-client` 项目中，一次“带 MCP Tool 调用”的完整链路：
+McpClient 可以根据配置选择不同的传输 provider，连接到本地或远程的 MCP Server，以适应不同部署环境。
 
-```text
-  1. user / business code
-        |
-        v
-  [Spring Boot App]
-        |
-        | chat(request)
-        v
-  [Spring AI ChatClient / Agent]
-        |
-        | 2. call LLM API (with MCP tools advertised)
-        v
-      [LLM / Model]
-        |
-        | 3. returns function_call (needs external tool)
-        v
-  [Spring AI MCP Client]
-        |
-        | 4. MCP protocol call (stdio / SSE / HTTP ...)
-        v
-      [MCP Server]
-        |
-        | 5. execute real tool logic
-        v
-  external systems / DB / vector store / HTTP APIs
-        |
-        | 6. tool result -> MCP Server -> MCP Client
-        v
-  [Spring AI ChatClient] -- 7. call LLM again (with tool result) -->
-      [LLM / Model] -- 8. generate final answer -->
-  [Spring Boot App] -- 9. reply to user
-```
+## 5. MCP 与传统 Tool Calling 的对比（从客户端视角）
 
-更多关于 Spring AI MCP Client 的官方文档，可以参考：
+在没有 MCP 的情况下，常见做法是直接使用“模型厂商提供的函数调用 / tool calling 功能”，在应用里注册工具描述。
 
-- https://docs.spring.io/spring-ai/reference/api/mcp/mcp-client-boot-starter-docs.html
+### 5.1 传统 Tool Calling 的特点
+
+- 工具 schema 往往与某一家模型厂商的 API 强绑定（例如 OpenAI Functions / Tools）；
+- 工具定义通常写在当前应用代码中，项目之间难以共享；
+- 集成门槛低、上手快，适合小型或单体应用。
+
+### 5.2 MCP 的特点（客户端 + 协议层）
+
+- 工具描述与实现从应用中抽离，集中在 MCP Server；
+- 协议层对模型厂商相对中立，同一个 MCP Server 可以被多个 LLM 客户端重用；
+- 客户端（McpClient）只需要实现一次协议与传输，便可接入多种工具和资源。
+
+### 5.3 优缺点对比简表
+
+| 维度                  | MCP（通过 McpClient 访问）                    | 传统 Tool Calling（直接在应用里注册）            |
+|-----------------------|-----------------------------------------------|--------------------------------------------------|
+| 与模型厂商的耦合度    | 低，协议抽象，可换不同 LLM                   | 高，往往与某个模型 API 强绑定                    |
+| 工具定义与实现位置    | 集中在 MCP Server，可被多项目复用            | 分散在各个应用源代码中                           |
+| 统一治理与审计        | 易于在 MCP Server 层集中实现                 | 需要在每个应用里重复实现                         |
+| 接入 / 维护复杂度     | 需要部署 MCP Server 并配置 McpClient         | 初始简单，但项目多了以后整体维护成本较高        |
+
+综合来看：
+
+- 小团队 / 单应用 / 单模型：直接 Tool Calling 更轻量；
+- 多应用 / 多模型 / 需要统一治理：通过 McpClient 接入 MCP Server 更适合长期演进。
+
+## 6. 常见问题记录：McpClient 启动失败（Client failed to initialize）
+
+### 6.1 问题现象
+
+`mcp-client` 启动时报错，大量 Bean 创建失败，最内层异常类似：
+
+- `java.lang.RuntimeException: Client failed to initialize by explicit API call`
+- `TimeoutException: Did not observe any item or terminal signal within 20000ms in 'map'`
+
+日志堆栈中可以看到是 `McpSyncClient.initialize(...)` 超时导致，最终 Spring Boot ApplicationContext 启动失败。
+
+### 6.2 根因分析
+
+1. `mcp-client` 通过 STDIO 方式自动拉起 MCP Server，配置在 `application.yaml` 和 `mcp-server.json` 中：
+   - `spring.ai.mcp.client.stdio.servers-configuration=classpath:mcp-server.json`
+   - `mcp-server.json` 里使用绝对路径执行：`/spring_ai_demo/mcp-server/target/mcp-server-0.0.1-SNAPSHOT.jar`
+2. 初始状态下：
+   - `mcp-server` 模块尚未打包，`target/mcp-server-0.0.1-SNAPSHOT.jar` 不存在；
+   - 同时 `spring_ai_demo/mcp-server/pom.xml` 中配置 `java.version=21`，但本地 Maven/JDK 环境只支持到 17，导致 `mvn package` 报错：
+     - `错误: 不支持发行版本 21`
+3. MCP Client 在启动时尝试拉起 MCP Server 但失败，始终收不到初始化响应，直到 20 秒超时（`request-timeout: 20s`），抛出上述超时异常。
+
+### 6.3 解决方案
+
+1. 修改 MCP Server 的 Java 版本，使其与运行环境一致（本项目使用 JDK 17）：
+
+   文件：`spring_ai_demo/mcp-server/pom.xml`
+
+   ```xml
+   <properties>
+       <java.version>17</java.version>
+       <spring-ai.version>1.1.2</spring-ai.version>
+   </properties>
+   ```
+
+2. 在 `spring_ai_demo/mcp-server` 目录执行打包（可跳过测试）：
+
+   ```bash
+   mvn -DskipTests package
+   ```
+
+   确认生成文件：`spring_ai_demo/mcp-server/target/mcp-server-0.0.1-SNAPSHOT.jar`。
+
+3. 再次启动 `mcp-client`（例如在 `spring_ai_demo/mcp-client` 下运行 `McpClientApplication` 或执行）：
+
+   ```bash
+   mvn -DskipTests spring-boot:run
+   ```
+
+   日志中应能看到：
+   - STDIO Client 成功启动 MCP Server；
+   - `LifecycleInitializer` 收到 server 的协议和 capabilities；
+   - Netty Web 服务器正常启动（例如 `Netty started on port 8084`）。
+
+### 6.4 经验建议
+
+- 先确保 MCP Server 能成功打包并本地运行，再启动 MCP Client；
+- 如果调整了项目路径，记得同步更新 `mcp-server.json` 中 `-jar` 的路径（或改成相对路径）；
+- 遇到 `Client failed to initialize` 或初始化超时时，优先检查：
+  - MCP Server jar 是否存在且可执行；
+  - `java.version` 是否与实际 JDK 版本匹配；
+  - `request-timeout` 是否过短（默认本例为 20 秒）。

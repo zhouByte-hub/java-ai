@@ -1,19 +1,32 @@
 server:
-  port: 8084
+  port: 8084 # 当前 mcp-client Web 服务监听端口
   servlet:
-    context-path: /spring-ai-mcp-client
+    context-path: /spring-ai-mcp-client # 统一的应用上下文路径前缀
+
 spring:
   application:
-    name: spring-ai-mcp-client
+    name: spring-ai-mcp-client # Spring Boot 应用名称（用于日志、监控等）
+
   ai:
     mcp:
       client:
+        enabled: true # 是否启用 Spring AI 的 MCP 客户端功能
+        name: spring-ai-mcp-client # 向 MCP Server 报告的客户端名称（用于标识客户端）
+        version: 1.0.0 # 向 MCP Server 报告的客户端版本号
+        initialized: true # 启动时是否立即执行 MCP 初始化握手（通常保持为 true）
+        request-timeout: 20s # MCP 客户端等待 Server 响应的超时时间（初始化及调用）
+        type: sync # MCP 客户端类型：sync 表示使用同步 MCP 客户端（阻塞式调用）
+        root-change-notification: true # 是否订阅 MCP Server 的资源根目录变更通知
+        toolcallback:
+          enabled: true # 是否将 MCP 暴露的工具自动注册为 Spring AI 的 ToolCallback
+        annotation-scanner:
+          enabled: true # 是否启用注解扫描，将本地标注的 MCP 相关 Bean 注册到客户端
+
         stdio:
-          connections:
-            server1:
-              url: http://localhost:8083/spring-ai-mcp-server
+          servers-configuration: classpath:mcp-server.json # STDIO 传输方式下 MCP Server 的启动配置文件位置
+
     ollama:
       chat:
         options:
-          model: qwen3:0.6b
-          temperature: 0.8
+          model: qwen3:0.6b # 使用的 Ollama 模型名称
+          temperature: 0.8 # 采样温度，数值越大回答越发散、创意越强

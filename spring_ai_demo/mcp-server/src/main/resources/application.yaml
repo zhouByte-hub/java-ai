@@ -18,6 +18,8 @@ spring:
         name: mcp-server # 用于标识的服务器名称
         version: 1.0.0  # 服务器版本
         type: sync  # 服务器类型（同步/异步）
+        annotation-scanner:
+          enabled: true
         capabilities:
           resource: true  # 启用/禁用资源功能
           tool: true    # 启用/禁用工具功能

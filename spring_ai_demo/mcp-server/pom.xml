@@ -15,6 +15,7 @@
     <description>mcp-server</description>
 
     <properties>
+        <!-- Align with the JDK used by the rest of the project / runtime (17) -->
         <java.version>21</java.version>
         <spring-ai.version>1.1.2</spring-ai.version>
     </properties>
