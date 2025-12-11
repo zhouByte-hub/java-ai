@@ -22,6 +22,7 @@
         <module name="alibaba-mcp-client" />
         <module name="mcp-client" />
         <module name="alibaba-mcp-server" />
+        <module name="alibaba-graph" />
       </profile>
       <profile name="Annotation profile for spring_ai_alibaba-demo" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -36,6 +37,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="alibaba-graph" options="-parameters" />
       <module name="alibaba-mcp-client" options="-parameters" />
       <module name="alibaba-mcp-server" options="-parameters" />
       <module name="langchain4j_demo" options="-parameters" />
