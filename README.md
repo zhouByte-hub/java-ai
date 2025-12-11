@@ -468,3 +468,62 @@ RAG 工作流（与上方示意图中的节点和箭头一一对应）
 - Tools 让助理“能真正动手做事”（排期、更新系统）；
 - Resources 让助理“心中有数”（了解候选人和岗位、知道公司规则）；
 - Prompts 让助理“说对话、按对的流程办事”（用合适的风格和步骤执行面试相关任务）。
+
+## 12. RAG 场景下常见的文档切分策略
+
+在 `spring_ai_alibaba-demo/src/main/java/com/zhoubyte/spring_ai_alibaba_demo/rag/RagChatClientController.java` 中，使用的是 `TokenTextSplitter` 对输入文本进行切分并写入 `PgVectorStore`。这里补充几种常见的文档切分方案，方便在不同业务中进行选择。
+
+### 12.1 TokenTextSplitter 参数说明
+
+代码示例：
+
+```java
+TokenTextSplitter tokenTextSplitter = TokenTextSplitter.builder()
+        .withChunkSize(50)
+        .withKeepSeparator(true)
+        .withMaxNumChunks(1024)
+        .withMinChunkLengthToEmbed(20)
+        .withMinChunkSizeChars(10)
+        .build();
+```
+
+核心参数含义（结合源码推断）：
+
+- `chunkSize`：每个分片的最大 token 数（基于 jtokkit 进行编码），控制单个 chunk 的上下文长度。
+- `minChunkSizeChars`：在选择切分位置时，最小字符数阈值，用来避免切得过碎（比如刚好在换行符前切断）。
+- `minChunkLengthToEmbed`：最终参与 embedding 的最小长度，小于该长度的分片会被丢弃，不入库，减少噪声与向量数量。
+- `maxNumChunks`：单个输入允许生成的最大分片数，防止一次性上传超长文档产生过多 chunk。
+- `keepSeparator`：是否保留换行符等分隔符；保留有利于维持段落/格式信息，不保留则更“干净”。
+
+优点：
+
+- 以 token 为单位切分，能更精确地控制接近模型上下文窗口（比如 512、1024 tokens）的尺寸。
+- 适合中英文混合文本，不需要显式处理多语言的字符长度差异。
+- 搭配 `minChunkLengthToEmbed` 可以自动过滤过短噪声，减少向量存储与检索开销。
+
+缺点：
+
+- 需要依赖 tokenizer（jtokkit），实现复杂度高于简单字符分割。
+- 默认不会显式感知“语义边界”（句子、段落、标题），可能在中间切断语句。
+
+适用场景：
+
+- 已经明确使用某个 LLM 的 token 限制（如 4k/8k/32k），希望严格控制 chunk 大小的通用 RAG 场景。
+- 知识库文本结构不算特别规整（例如 FAQ、Chat 记录等），更关心“上下文长度”而非完美的段落边界。
+
+### 12.2 其它常见文档切分方案概览
+
+下面几类方案是 RAG 项目里最常用的文档切分思路，可以在 Spring AI 中通过自定义 `TextSplitter` 或自定义 `DocumentTransformer` 来实现，在 LangChain4j 等框架中也有类似抽象。
+
+| 策略类型                 | 典型实现方式                                 | 关键参数例子                                      | 优点                                                     | 缺点                                                     | 推荐使用场景                                             |
+|--------------------------|----------------------------------------------|---------------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|
+| 固定字符长度切分         | 按 N 个字符一刀切，或带少量重叠滑动窗口     | `chunkSizeChars`、`chunkOverlapChars`            | 实现最简单、性能好；不依赖 tokenizer 或语言特性         | 容易把一句话或一个段落切开，语义边界不友好             | 小型 Demo、对语义要求不高的日志类文本                   |
+| 句子/段落优先切分        | 先按空行拆段落，再按句号、问号、换行等拆句 | `separators`（如 `["\n\n",".","。","?","？"]` 等）、`maxCharsPerChunk` | 更贴近自然语言边界，单个 chunk 语义完整度更高           | 不同语言标点差异大，规则维护成本高；chunk 长度不均匀   | FAQ、说明文档、产品手册等结构化自然语言文档             |
+| 基于文档结构的层级切分   | 利用 Markdown 标题、HTML 标签、PDF 目录等   | `maxSectionDepth`、`maxSectionSize`、`mergeShortSections` | 能保留标题-正文层次，检索时更易关联到人类可读的章节     | 需要针对不同格式写解析器；实现和测试成本较高           | 技术文档、API 文档、知识库 Wiki、规章制度类长文档       |
+| 基于语义/Embedding 的切分 | 对连续文本滚动计算 embedding，根据相似度切断 | `similarityThreshold`、`windowSize`、`maxSegmentLength` | 可以在语义“话题变化处”切分，chunk 语义一致性最好        | 计算成本最高，需要两次 embedding；实现复杂度也最高     | 对答案质量极其敏感的高价值场景，如法律条款、医学资料等 |
+
+一些实践经验：
+
+- 如果只是做 RAG Demo 或内部小工具：优先用 `TokenTextSplitter` 或简单“固定字符长度 + 小重叠”的方案即可。
+- 如果面向生产、且文档是 Markdown/手册类：可以考虑“结构化层级切分（标题/段落优先） + Token 级限长”组合。
+- 如果业务对召回准确性要求非常高（如法律、金融风控）：可尝试在关键文档上使用“语义切分”，但要接受更高的计算和实现成本。

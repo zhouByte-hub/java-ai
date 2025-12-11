@@ -12,13 +12,16 @@ import reactor.core.publisher.Flux;
 
 @RestController
 @RequestMapping(value = "/chatModel")
-@RequiredArgsConstructor
 public class ChatModelController {
 
-    private final ChatModel chatModel;
+    private final ChatModel ollamaChatModel;
+
+    public ChatModelController(ChatModel ollamaChatModel) {
+        this.ollamaChatModel = ollamaChatModel;
+    }
 
     @GetMapping(value = "/chat")
     public Flux<String> chat(@RequestParam("message") String message){
-        return chatModel.stream(new Prompt(message)).map(ChatResponse::getResult).mapNotNull(item -> item.getOutput().getText());
+        return ollamaChatModel.stream(new Prompt(message)).map(ChatResponse::getResult).mapNotNull(item -> item.getOutput().getText());
     }
 }

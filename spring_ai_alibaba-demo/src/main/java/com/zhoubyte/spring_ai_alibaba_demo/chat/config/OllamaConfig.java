@@ -21,26 +21,26 @@ public class OllamaConfig {
      * 基于本地 Ollama ChatModel 创建 ChatClient。
      * ChatModel 由 spring-ai-starter-model-ollama 根据 spring.ai.ollama.* 配置自动装配。
      */
-//    @Bean("ollamaChatClient")
-//    public ChatClient ollamaChatClient(ChatModel chatModel, BaseAdvisor memoriesAdvisor, SimpleMemories simpleMemories, ChatMemoryRepository databaseChatMemoryRepository) {
-//        // 大模型记忆：方式一
-////        ChatMemory.CONVERSATION_ID
-//        MessageWindowChatMemory build = MessageWindowChatMemory.builder()
-//                .maxMessages(20)
-//                .chatMemoryRepository(databaseChatMemoryRepository)
-//                .build();
+    @Bean("ollamaChatClient")
+    public ChatClient ollamaChatClient(ChatModel chatModel, BaseAdvisor memoriesAdvisor, SimpleMemories simpleMemories, ChatMemoryRepository databaseChatMemoryRepository) {
+        // 大模型记忆：方式一
+//        ChatMemory.CONVERSATION_ID
+        MessageWindowChatMemory build = MessageWindowChatMemory.builder()
+                .maxMessages(20)
+                .chatMemoryRepository(databaseChatMemoryRepository)
+                .build();
 
 
-//        MessageChatMemoryAdvisor chatMemoriesSessionId = MessageChatMemoryAdvisor
-//                .builder(simpleMemories)    // 使用 simpleMemories或者使用 build
-//                .conversationId("chat_memories_session_id")
-//                .order(1)
-//                .build();
-//
-//        // 大模型记忆：方式二
-//        return ChatClient.builder(chatModel)
-//                .defaultAdvisors(memoriesAdvisor)
-//                .build();
-//    }
+        MessageChatMemoryAdvisor chatMemoriesSessionId = MessageChatMemoryAdvisor
+                .builder(simpleMemories)    // 使用 simpleMemories或者使用 build
+                .conversationId("chat_memories_session_id")
+                .order(1)
+                .build();
+
+        // 大模型记忆：方式二
+        return ChatClient.builder(chatModel)
+                .defaultAdvisors(memoriesAdvisor)
+                .build();
+    }
 }
 

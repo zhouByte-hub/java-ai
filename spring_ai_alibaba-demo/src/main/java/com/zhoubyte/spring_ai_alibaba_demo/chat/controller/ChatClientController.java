@@ -14,14 +14,17 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/chatClient")
-@RequiredArgsConstructor
 public class ChatClientController {
 
-    private final ChatClient chatClient;
+    private final ChatClient ollamaChatClient;
+
+    public ChatClientController(ChatClient ollamaChatClient) {
+        this.ollamaChatClient = ollamaChatClient;
+    }
 
     @GetMapping(value = "/chat")
     public Flux<String> stream(@RequestParam("message") String message) {
-        return chatClient.prompt(new Prompt(message)).stream().content();
+        return ollamaChatClient.prompt(new Prompt(message)).stream().content();
     }
 
 
@@ -33,6 +36,6 @@ public class ChatClientController {
         // 用户提示词
         PromptTemplate build = PromptTemplate.builder().template("").variables(Map.of()).build();
         Prompt prompt = build.create(Map.of());
-        return chatClient.prompt(prompt).stream().content();
+        return ollamaChatClient.prompt(prompt).stream().content();
     }
 }
