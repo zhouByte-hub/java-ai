@@ -1,7 +1,6 @@
-
 {
   "mcpServers": {
-    "my-mcp-service": {
+    "alibaba-mcp-service": {
       "command": "java",
       "args": [
         "-Dspring.ai.mcp.server.stdio=true",
@@ -9,7 +8,7 @@
         "-Dspring.main.banner-mode=off",
         "-Dlogging.pattern.console=",
         "-jar",
-        "/Users/zhoubyte/project/java/java-ai/spring_ai_demo/mcp-server/target/mcp-server-0.0.1-SNAPSHOT.jar"
+        "/Users/zhoubyte/project/java/java-ai/spring_ai_alibaba-demo/alibaba-mcp-server/target/alibaba-mcp-server-0.0.1-SNAPSHOT.jar"
       ]
     }
   }

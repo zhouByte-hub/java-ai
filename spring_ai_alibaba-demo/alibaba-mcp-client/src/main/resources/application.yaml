@@ -1,0 +1,18 @@
+
+spring:
+  application:
+    name: alibaba-mcp-client
+  webflux:
+    base-path: /alibaba-mcp-client
+  ai:
+    ollama:
+      chat:
+        options:
+          model: qwen3:0.6b
+          temperature: 0.8
+    mcp:
+      client:
+        stdio:
+          servers-configuration: classpath:alibaba-mcp-server.json
+server:
+  port: 8086

@@ -1,0 +1,17 @@
+server:
+  port: 8085
+  servlet:
+    context-path: /alibaba-mcp-server
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+spring:
+  application:
+    name: alibaba-mcp-server
+  ai:
+    mcp:
+      server:
+        name: alibaba-mcp-server
+        enabled: true
+        stdio: true
