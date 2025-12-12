@@ -1,0 +1,18 @@
+server:
+  port: 8087
+  servlet:
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+spring:
+  webflux:
+    base-path: /alibaba-graph
+  application:
+    name: alibaba-graph
+  ai:
+    ollama:
+      chat:
+        options:
+          model: qwen3:0.6b
+          temperature: 0.8
