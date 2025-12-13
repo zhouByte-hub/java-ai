@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/spring_ai_alibaba-demo/alibaba-mcp-client/pom.xml" />
         <option value="$PROJECT_DIR$/spring_ai_alibaba-demo/alibaba-mcp-server/pom.xml" />
         <option value="$PROJECT_DIR$/spring_ai_alibaba-demo/alibaba-graph/pom.xml" />
+        <option value="$PROJECT_DIR$/langGraph_demo/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

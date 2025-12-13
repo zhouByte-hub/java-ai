@@ -22,6 +22,7 @@
         <module name="alibaba-mcp-client" />
         <module name="mcp-client" />
         <module name="alibaba-mcp-server" />
+        <module name="langGraph_demo" />
         <module name="alibaba-graph" />
       </profile>
       <profile name="Annotation profile for spring_ai_alibaba-demo" enabled="true">
@@ -40,6 +41,7 @@
       <module name="alibaba-graph" options="-parameters" />
       <module name="alibaba-mcp-client" options="-parameters" />
       <module name="alibaba-mcp-server" options="-parameters" />
+      <module name="langGraph_demo" options="-parameters" />
       <module name="langchain4j_demo" options="-parameters" />
       <module name="mcp-client" options="-parameters" />
       <module name="mcp-server" options="-parameters" />
