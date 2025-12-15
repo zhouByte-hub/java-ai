@@ -12,7 +12,6 @@
           <entry name="$USER_HOME$/T_FILE/repostory/maven/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
         <module name="spring_ai_demo" />
-        <module name="langchain4j_demo" />
       </profile>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -25,7 +24,7 @@
         <module name="langGraph_demo" />
         <module name="alibaba-graph" />
       </profile>
-      <profile name="Annotation profile for spring_ai_alibaba-demo" enabled="true">
+      <profile name="Annotation profile for langchain4j_demo" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -33,6 +32,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
         <module name="spring_ai_alibaba-demo" />
+        <module name="langchain4j_demo" />
       </profile>
     </annotationProcessing>
   </component>
