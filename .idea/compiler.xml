@@ -8,6 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="langgraph-demo" />
+        <module name="alibaba-mcp-client" />
+        <module name="mcp-server" />
+        <module name="alibaba-mcp-server" />
+        <module name="mcp-client" />
+        <module name="alibaba-graph" />
       </profile>
       <profile name="Annotation profile for java-ai" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -16,34 +21,47 @@
         <processorPath useClasspath="false">
           <entry name="$PROJECT_DIR$/../../repository/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
+        <module name="alibaba-core" />
         <module name="langchain4j-demo" />
+        <module name="spring-ai-core" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="alibaba-graph" target="21" />
-      <module name="alibaba-mcp-client" target="21" />
-      <module name="alibaba-mcp-server" target="21" />
+      <module name="core (1)" target="17" />
+      <module name="core (2)" target="17" />
       <module name="langchain4j_demo" target="17" />
       <module name="langGraph_demo" target="21" />
-      <module name="mcp-client" target="21" />
-      <module name="mcp-server" target="21" />
+      <module name="spring-ai-alibaba-demo-graph" target="21" />
+      <module name="spring-ai-alibaba-demo-mcp-client" target="21" />
+      <module name="spring-ai-alibaba-demo-mcp-server" target="21" />
+      <module name="spring-ai-demo-mcp-client" target="21" />
+      <module name="spring-ai-demo-mcp-server" target="21" />
       <module name="spring_ai_alibaba-demo" target="17" />
       <module name="spring_ai_demo" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="alibaba-core" options="-parameters" />
       <module name="alibaba-graph" options="-parameters" />
       <module name="alibaba-mcp-client" options="-parameters" />
       <module name="alibaba-mcp-server" options="-parameters" />
+      <module name="core (1)" options="-parameters" />
+      <module name="core (2)" options="-parameters" />
       <module name="langGraph_demo" options="-parameters" />
       <module name="langchain4j-demo" options="-parameters" />
       <module name="langchain4j_demo" options="-parameters" />
       <module name="langgraph-demo" options="-parameters" />
       <module name="mcp-client" options="-parameters" />
       <module name="mcp-server" options="-parameters" />
-      <module name="spring-ai-alibaba-demo" options="-parameters" />
-      <module name="spring-ai-demo" options="-parameters" />
+      <module name="spring-ai-alibaba-demo" options="" />
+      <module name="spring-ai-alibaba-demo-graph" options="-parameters" />
+      <module name="spring-ai-alibaba-demo-mcp-client" options="-parameters" />
+      <module name="spring-ai-alibaba-demo-mcp-server" options="-parameters" />
+      <module name="spring-ai-core" options="-parameters" />
+      <module name="spring-ai-demo" options="" />
+      <module name="spring-ai-demo-mcp-client" options="-parameters" />
+      <module name="spring-ai-demo-mcp-server" options="-parameters" />
       <module name="spring_ai_alibaba-demo" options="-parameters" />
       <module name="spring_ai_demo" options="-parameters" />
     </option>

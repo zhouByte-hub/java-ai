@@ -4,23 +4,17 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/springai-demo/pom.xml" />
-        <option value="$PROJECT_DIR$/spring_ai_alibaba-demo/pom.xml" />
-        <option value="$PROJECT_DIR$/spring_ai_demo/pom.xml" />
-        <option value="$PROJECT_DIR$/langchain4j_demo/pom.xml" />
-        <option value="$PROJECT_DIR$/spring_ai_demo/mcp-client/pom.xml" />
-        <option value="$PROJECT_DIR$/spring_ai_demo/mcp-server/pom.xml" />
-        <option value="$PROJECT_DIR$/spring_ai_alibaba-demo/alibaba-mcp-client/pom.xml" />
-        <option value="$PROJECT_DIR$/spring_ai_alibaba-demo/alibaba-mcp-server/pom.xml" />
-        <option value="$PROJECT_DIR$/spring_ai_alibaba-demo/alibaba-graph/pom.xml" />
-        <option value="$PROJECT_DIR$/langGraph_demo/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/langchain4j-demo/pom.xml" />
+        <option value="$PROJECT_DIR$/langgraph-demo/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-ai-alibaba-demo/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-ai-alibaba-demo/alibaba-graph/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-ai-alibaba-demo/alibaba-mcp-client/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-ai-alibaba-demo/alibaba-mcp-server/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-ai-demo/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-ai-demo/mcp-client/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-ai-demo/mcp-server/pom.xml" />
       </list>
-    </option>
-    <option name="ignoredFiles">
-      <set>
-        <option value="$PROJECT_DIR$/springai-demo/pom.xml" />
-      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="21" project-jdk-type="JavaSDK">
