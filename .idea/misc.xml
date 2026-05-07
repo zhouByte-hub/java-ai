@@ -14,6 +14,7 @@
         <option value="$PROJECT_DIR$/spring_ai_alibaba-demo/alibaba-mcp-server/pom.xml" />
         <option value="$PROJECT_DIR$/spring_ai_alibaba-demo/alibaba-graph/pom.xml" />
         <option value="$PROJECT_DIR$/langGraph_demo/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -22,7 +23,7 @@
       </set>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="17" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

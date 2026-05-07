@@ -3,16 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.8</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.zhoubyte</groupId>
+        <artifactId>spring-ai-alibaba-demo</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>org.zhoubyte</groupId>
+
     <artifactId>alibaba-mcp-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>alibaba-mcp-server</name>
-    <description>alibaba-mcp-server</description>
+    <description>Spring AI Alibaba Demo - MCP Server</description>
 
     <properties>
         <java.version>21</java.version>
@@ -30,18 +28,6 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.ai</groupId>
-                <artifactId>spring-ai-bom</artifactId>
-                <version>${spring-ai.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
