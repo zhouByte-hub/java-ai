@@ -29,7 +29,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://175.178.42.153:5432/postgres?serverTimezone=Asia/Shanghai
     username: postgres
-    password: dayu@dev_9527
+    password: 
     hikari:
       connection-timeout: 30000
       maximum-pool-size: 32
