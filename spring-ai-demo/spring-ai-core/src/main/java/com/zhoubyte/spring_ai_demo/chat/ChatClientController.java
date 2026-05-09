@@ -92,4 +92,18 @@ public class ChatClientController {
         result.put("usage", Objects.requireNonNull(response.chatResponse()).getMetadata().getUsage());
         return result;
     }
+
+    /**
+     * 将大模型的输出转换为结构化类
+     * @param userMessage 用户输入
+     * @return 结果
+     */
+    @GetMapping(value = "/complaints")
+    public String complaints(@RequestParam("query") String userMessage) {
+        Boolean complaints = ollamaChatClient.prompt(new Prompt(userMessage)).call().entity(Boolean.class);
+        if(Boolean.TRUE.equals(complaints)) {
+            return "用户提交投诉意见，转人工";
+        }
+        return "用户提交非投诉意见，请稍候处理";
+    }
 }

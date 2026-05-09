@@ -19,6 +19,7 @@ public class ToolController {
     public Flux<String> chat(@RequestParam("message") String message) {
         return toolChatClient.prompt()
                 .user(message)
+//                .tools()
                 .stream()
                 .content();
     }
