@@ -32,6 +32,7 @@
         <module>langchain4j-demo</module>
         <module>spring-ai-demo</module>
         <module>spring-ai-alibaba-demo</module>
+        <module>pageindex-demo</module>
     </modules>
 
     <dependencyManagement>

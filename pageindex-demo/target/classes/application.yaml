@@ -1,0 +1,28 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /pageindex
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: qwen3:0.6b
+          temperature: 0.3
+      init:
+        pull-model-strategy: never
+
+  application:
+    name: pageindex-demo
+
+pageindex:
+  max-reasoning-depth: 5
+  max-reasoning-iterations: 10
+  summary-max-length: 2000
+  content-max-length: 3000

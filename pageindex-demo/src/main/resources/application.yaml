@@ -1,0 +1,31 @@
+# 服务端口与上下文路径
+server:
+  port: 8081
+  servlet:
+    context-path: /pageindex   # 所有接口前缀：http://localhost:8081/pageindex/...
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+# Spring AI 配置 —— 使用本地 Ollama 作为 LLM 推理引擎
+spring:
+  ai:
+    ollama:
+      base-url: http://localhost:11434  # Ollama 服务地址
+      chat:
+        options:
+          model: qwen3:0.6b             # 聊天模型（用于推理导航 + 答案生成）
+          temperature: 0.3              # 低温度保证推理稳定性
+      init:
+        pull-model-strategy: never      # 启动时不自动拉取模型
+
+  application:
+    name: pageindex-demo
+
+# PageIndex 自定义配置
+pageindex:
+  max-reasoning-depth: 5       # 推理树搜索最大深度
+  max-reasoning-iterations: 10 # 单次查询最大推理迭代次数
+  summary-max-length: 2000     # 生成摘要时截取的最大文本长度
+  content-max-length: 3000     # 生成答案时截取的最大内容长度
