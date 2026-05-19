@@ -8,6 +8,7 @@ import java.util.List;
 
 @Component
 public class DatabaseChatMemoriesRepository implements ChatMemoryRepository {
+
     @Override
     public List<String> findConversationIds() {
         return List.of();

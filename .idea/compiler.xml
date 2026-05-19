@@ -19,10 +19,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$PROJECT_DIR$/../../repository/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
         <module name="alibaba-core" />
         <module name="langchain4j-demo" />
+        <module name="pageindex-demo" />
         <module name="spring-ai-core" />
       </profile>
     </annotationProcessing>
@@ -54,6 +55,7 @@
       <module name="langgraph-demo" options="-parameters" />
       <module name="mcp-client" options="-parameters" />
       <module name="mcp-server" options="-parameters" />
+      <module name="pageindex-demo" options="-parameters" />
       <module name="spring-ai-alibaba-demo" options="" />
       <module name="spring-ai-alibaba-demo-graph" options="-parameters" />
       <module name="spring-ai-alibaba-demo-mcp-client" options="-parameters" />

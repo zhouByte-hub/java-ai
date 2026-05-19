@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * BaseAdvisor继承了CallAdvisor和StreamAdvisor
+ */
 @Component
 public class MemoriesAdviser implements BaseAdvisor {
     private final static Map<String, List<Message>> MEMORIES = new HashMap<>();

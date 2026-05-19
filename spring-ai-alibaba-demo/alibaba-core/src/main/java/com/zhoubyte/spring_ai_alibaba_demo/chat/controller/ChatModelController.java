@@ -1,6 +1,6 @@
 package com.zhoubyte.spring_ai_alibaba_demo.chat.controller;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
+/**
+ * ChatModel是低级 API
+ * chatModel没有 toEntity的方法
+ */
 @RestController
 @RequestMapping(value = "/chatModel")
 public class ChatModelController {
