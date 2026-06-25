@@ -1,3 +1,15 @@
+> ⚠️ **注意：本项目已过期，不再维护**
+> 
+> 本项目已迁移至新的仓库地址，请访问最新版本：
+> 
+> **最新仓库地址：** [https://github.com/zhouByte-hub/scorpio-java](https://github.com/zhouByte-hub/scorpio-java)
+> 
+> 新仓库包含完整的 Java 学习项目，涵盖类加载器机制、代理模式、设计模式、分布式系统基础以及 Java AI 相关内容。
+
+---
+
+
+
 # Spring AI、Spring AI Alibaba、LangChain4j、LangGraph 差异
 
 ## 目录
